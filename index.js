@@ -25,9 +25,14 @@ const formatPerson = (person) => {
 }
 
 app.get('/info', (req, res) => {
-    var responseString = `puhelinluettelossa ${persons.length} henkilön tiedot`
-    var timeStamp = new Date()
-    res.send(200, '<p>' + responseString + '</p><p>' + timeStamp.toString() + '</p>')
+    Person.find({}).then(response => {
+        var responseString = `puhelinluettelossa ${persons.length} henkilön tiedot`
+        var timeStamp = new Date()
+        res.send(200, '<p>' + responseString + '</p><p>' + timeStamp.toString() + '</p>')
+    }).catch(error => {
+        console.log(error)
+    })
+
 })
 
 app.get('/api/persons', (req, res) => {
@@ -74,11 +79,19 @@ app.post('/api/persons', (req, res) => {
         number: body.number,
     })
 
-    person.save().then(response => {
-        res.json(formatPerson(response))
-    }).catch(error => {
-        console.log(error)
+    Person.find({name: person.name}).then(response => {
+        if (response.length > 0) {
+            res.status(400).json({error: 'name exists'})
+        } else {
+            person.save().then(response => {
+                res.json(formatPerson(response))
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     })
+
+
 })
 
 app.put('/api/persons/:id', (req, res) => {
