@@ -7,6 +7,7 @@ const morgan = require('morgan')
 morgan.token('body', function(req, res) { return JSON.stringify(req.body)})
 morgan.format('custom', ':method :url :body :res[content-length] - :response-time ms')
 
+app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(cors())
 app.use(morgan('custom'))
