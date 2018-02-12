@@ -20,8 +20,10 @@
   "homepage": "https://github.com/koodikettu/puhelinluettelo-backend#readme",
   "dependencies": {
     "cors": "^2.8.4",
+    "dotenv": "^5.0.0",
     "express": "^4.16.2",
     "expresss": "0.0.0",
+    "mongoose": "^5.0.4",
     "morgan": "^1.9.0",
     "nodemon": "^1.14.12"
   }
